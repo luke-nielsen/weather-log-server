@@ -79,12 +79,28 @@ Database for storing check-in logs.
   - Temperature (Number)
   - Weather Description (Single line text)
 
+## Project Structure
+
+```
+app/
+├── services/
+│   ├── airtable.py      # Airtable integration
+│   ├── geocode.py       # PositionStack reverse geocoding
+│   └── weather.py       # WeatherAPI integration
+├── utils/
+│   └── exceptions.py    # Custom exception classes
+├── __init__.py          # Flask app factory
+├── config.py            # Configuration management
+└── routes.py            # API route definitions
+main.py                  # Application entry point
+```
+
 ## Deployment
 
 This app is configured to run on Replit with automatic deployment to Cloud Run.
 
 - **Development**: Runs on port 81 locally
-- **Production**: Deployed via Replit's deployment feature
+- **Production**: Deployed via Replit's deployment feature to Cloud Run
 
 ## iOS Shortcut Integration
 
@@ -96,11 +112,11 @@ This API is designed to work with iOS Shortcuts that:
 ## Error Handling
 
 The API includes comprehensive error handling for:
-- Invalid API tokens (401)
-- Malformed requests (400)
-- Missing coordinates (400)
-- External API failures (500)
-- Airtable logging failures (500)
+- Invalid API tokens (401 Unauthorized)
+- Malformed requests (400 Bad Request)
+- Missing coordinates (400 Bad Request)
+- External API failures (graceful fallback to "N/A" values)
+- Airtable logging failures (500 Internal Server Error)
 
 ## Development
 
@@ -114,3 +130,5 @@ To run locally:
 - Flask 3.1.0
 - Requests 2.32.3
 - Python-dotenv 1.0.1
+
+All dependencies are managed via `pyproject.toml` and automatically installed by Replit.
